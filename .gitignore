@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+backend/env/
+.venv/
+env/
+ENV/
+
+# Node dependencies
+frontend/node_modules/
+frontend/dist/
+
+# Local env files (holds keys/API strings)
+.env
+frontend/.env
+
+# OS files
+.DS_Store
+Thumbs.db
