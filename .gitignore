@@ -20,3 +20,15 @@ frontend/.env
 # OS files
 .DS_Store
 Thumbs.db
+
+# Linux System Files
+.directory
+.Trash-*
+
+# Visual Studio Code local workspace cache
+.vscode/
+*.code-workspace
+
+# Python specific caching overrides
+.pytest_cache/
+.mypy_cache/
