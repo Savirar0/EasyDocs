@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
             const decodedToken = jwtDecode(storedToken);
             setToken(storedToken);
             setRole(decodedToken['role']);
-            setCompanyId(decodedToken['company'])
+            setCompanyId(decodedToken['company_id'])
         }else{
             setToken(null);
             setRole(null);
