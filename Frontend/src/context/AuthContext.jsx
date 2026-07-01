@@ -1,9 +1,8 @@
-import React, { createContext, useState } from 'react';
+import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { AuthContext } from './auth'; 
 
-const AuthContext = createContext(null);
-
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(() => {
         return localStorage.getItem('access_token') || null;
     });
@@ -69,5 +68,3 @@ const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
-const useAuth = () => React.useContext(AuthContext);
-export {AuthProvider, useAuth};

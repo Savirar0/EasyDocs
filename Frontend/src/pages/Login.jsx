@@ -1,4 +1,4 @@
-import React from 'react'
+import 'react'
 import { useActionState } from 'react'
 import { useAuth } from '../context/AuthContext'
 
