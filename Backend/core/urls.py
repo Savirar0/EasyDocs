@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView # type: ignore
 # Import your custom view from the accounts app
 from accounts.views import MyTokenObtainPairView
 
