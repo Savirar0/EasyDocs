@@ -1,37 +1,40 @@
-import React from 'react'
-import {jwtDecode} from 'jwt-decode'
-import { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
-export const AuthContext = createContext(null);
+const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
-    const [token,setToken] = useState(null);
-    const [role, setRole] = useState(null);
-    const [companyId, setCompanyId] = useState(null);
-    useEffect(()=>{
+const AuthProvider = ({ children }) => {
+    const [token, setToken] = useState(() => {
+        return localStorage.getItem('access_token') || null;
+    });
+
+    const [role, setRole] = useState(() => {
         const storedToken = localStorage.getItem('access_token');
-        if(storedToken){
-            const decodedToken = jwtDecode(storedToken);
-            setToken(storedToken);
-            setRole(decodedToken['role']);
-            setCompanyId(decodedToken['company_id'])
-        }else{
-            setToken(null);
-            setRole(null);
+        if (storedToken) {
+            const decoded = jwtDecode(storedToken);
+            return decoded.role || null;
         }
-    }, [])
+        return null;
+    });
 
-    const loginUser = async(username, password) => {
-        try{
-            const response = await fetch("http://127.0.0.1:8000/api/token/",{
+    const [companyId, setCompanyId] = useState(() => {
+        const storedToken = localStorage.getItem('access_token');
+        if (storedToken) {
+            const decoded = jwtDecode(storedToken);
+            return decoded.company_id || null; 
+        }
+        return null;
+    });
+
+    const loginUser = async (username, password) => {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/token/", {
                 method: "POST",
-                headers:{
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({username, password}),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
             });
 
-            if (response.ok){
+            if (response.ok) {
                 const data = await response.json();
                 const accessToken = data.access;
                 const decoded = jwtDecode(accessToken);
@@ -43,18 +46,14 @@ export const AuthProvider = ({ children }) => {
                 setRole(decoded.role);
                 setCompanyId(decoded.company_id);
 
-                return {success: true};
-            }else{
-                return {
-                    success: false, error: "Invalid username or password"
-                };
+                return { success: true };
+            } else {
+                return { success: false, error: "Invalid username or password" };
             }
-        }catch(err){
-            return {
-                success: false, error:"Server is unreachable"
-            };
+        } catch {
+            return { success: false, error: "Server is unreachable" };
         }
-    } 
+    };
 
     const logoutUser = () => {
         localStorage.removeItem("access_token");
@@ -62,15 +61,13 @@ export const AuthProvider = ({ children }) => {
         setCompanyId(null);
         setRole(null);
         setToken(null);
-    }
+    };
 
-  return (
-    
-    <AuthContext.Provider value={{token, role, companyId, loginUser, logoutUser}}>
-        {children}
-    </AuthContext.Provider>
-  )
+    return (
+        <AuthContext.Provider value={{ token, role, companyId, loginUser, logoutUser }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
-
-export default AuthContext
-export const useAuth = () => React.useContext(AuthContext);
+const useAuth = () => React.useContext(AuthContext);
+export {AuthProvider, useAuth};
