@@ -1,6 +1,7 @@
 import 'react';
 import Login from './pages/Login'; // Adjust path if it's under src/components
 import { useAuth } from './context/auth';
+import CompanyRegistration from './pages/CompanyRegistration';
 
 function App() {
   const { token, role, companyId } = useAuth();
