@@ -4,13 +4,31 @@ import { useActionState, useState } from 'react'
 function CompanyRegistration() {
 
     async function saveCompany(prevState, formData){
+        const password = formData.get("adminPassword");
+        const conform_password = formData.get("adminConformPassword");
+
+        if(password != conform_password){
+
+            return{
+                success: false,
+                error: "Password don't match"
+            };
+        }
 
         try{
             const response = await fetch("http://127.0.0.1:8000/api/register-company/", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
-                    
+                    name: formData.get("companyName"),
+                    domain: formData.get("domain") || null, 
+                    mail: formData.get("companyEmail"),
+                    phone_number: formData.get("companyPhone"),
+                    location: formData.get("companyLocation"),
+
+                    // Admin User of company
+                    username: formData.get("adminUsername"),
+                    password: formData.get("adminPassword"),
                 })
             });
             
