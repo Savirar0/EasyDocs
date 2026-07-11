@@ -49,7 +49,7 @@ function Login() {
                 </h1>
             </div>
 
-            <div className="mt-8 lg:w-1/2 lg:mt-0 justify-center">
+            <div className="mt-8 lg:w-1/2 lg:mt-0 justify-center    ``````````````                                                                      ">
                 <form action={formAction} className="w-full lg:max-w-xl">
                     <div className="relative flex items-center">
                         <span className="absolute">
@@ -69,20 +69,22 @@ function Login() {
                         <input type="password" id="password" name="password" className="block w-full px-11 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password"/>
                     </div>
 
-                    <div className="mt-8 md:flex md:items-center gap-4">
-                        <button disabled={formLoading} type="submit" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg md:w-1/2 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 disabled:opacity-50">
-                        {formLoading ? "Signing in..." : "Sign in"}
+                    <div className='w-full flex flex-col items-center'>
+                        <div className="mt-8 md:flex md:items-center gap-4">
+                            <button disabled={formLoading} type="submit" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg md:w-1/2 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 disabled:opacity-50">
+                            {formLoading ? "Signing in..." : "Sign in"}
+                            </button>
+                            {formData?.error && <p className="text-red-500 text-sm">{formData.error}</p>}
+                            <a href="#" className="inline-block mt-4 text-center text-blue-500 md:mt-0 hover:underline dark:text-blue-400">
+                            Forgot your password?
+                            </a>
+                        </div>
+                        <button disabled={formLoading} type='button' onClick={CompanyRegistration}  className="w-full mt-2 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg md:w-1/2 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 disabled:opacity-50">
+                            Company Registration
                         </button>
-                        {formData?.error && <p className="text-red-500 text-sm">{formData.error}</p>}
-                        <a href="#" className="inline-block mt-4 text-center text-blue-500 md:mt-0 hover:underline dark:text-blue-400">
-                        Forgot your password?
-                        </a>
                     </div>
                     
                 </form>
-                <button disabled={formLoading} onClick={CompanyRegistration} type="submit" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg md:w-1/2 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 disabled:opacity-50">
-                    Sign Up!
-                </button>
             </div>
             </div>
         </div>
