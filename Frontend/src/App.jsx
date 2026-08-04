@@ -1,23 +1,25 @@
-import 'react';
-import Login from './pages/Login'; // Adjust path if it's under src/components
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { useAuth } from './context/auth';
-import CompanyRegistration from './pages/CompanyRegistration';
 
 function App() {
-  const { token, role, companyId } = useAuth();
+  const { role, companyId, logout } = useAuth();
 
-  // 🔒 Gatekeeper: If there is no token, completely block the app and show Login
-  if (!token) {
-    return <Login />;
-  }
- 
-  // 🔓 Authenticated: Show the dashboard interface once logged in successfully
   return (
-    <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
-      <h1>🎉 Welcome to EasyDocs Portal</h1>
-      <p>You have successfully logged in with the secure role: <strong>{role}</strong></p>
-      <p> Company: {companyId}</p>
-      <p>Backend database synchronization connection is completely active.</p>
+    <div style={{ fontFamily: 'sans-serif', minHeight: '100vh' }}>
+      {/* 🧭 Global Top Navigation / Header */}
+      <header style={{ padding: '20px', backgroundColor: '#f5f5f5', borderBottom: '1px solid #ccc', display: 'flex', justifyContent: 'space-between' }}>
+        <h2>EasyDocs Portal</h2>
+        <div>
+          <span>Role: <strong>{role}</strong> | Company: <strong>{companyId}</strong></span>
+          <button onClick={logout} style={{ marginLeft: '15px' }}>Logout</button>
+        </div>
+      </header>
+
+      {/* 📄 Dynamic Page Content Renders Here */}
+      <main style={{ padding: '40px' }}>
+        <Outlet />
+      </main>
     </div>
   );
 }
