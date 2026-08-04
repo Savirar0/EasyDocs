@@ -3,9 +3,14 @@ import { useActionState, useState } from 'react'
 
 function CompanyRegistration() {
 
+    const [state, formAction, isPending] = useActionState(loginAction, {
+        success: false,
+        message: 'Registration not submitted.',
+    });
+
     async function saveCompany(prevState, formData){
-        const password = formData.get("adminPassword");
-        const conform_password = formData.get("adminConformPassword");
+        const password = formData.get("password");
+        const conform_password = formData.get("confirmPassword");
 
         if(password != conform_password){
 
@@ -22,11 +27,11 @@ function CompanyRegistration() {
                 body: JSON.stringify({
                     company_name: formData.get("companyName"),
                     domain: formData.get("domain") || null, 
-                    mail: formData.get("companyEmail"),
-                    phone_number: formData.get("companyPhone"),
-                    location: formData.get("companyLocation"),
-                    username: formData.get("adminUsername"),
-                    password: formData.get("adminPassword"),
+                    mail: formData.get("email"),
+                    phone_number: formData.get("phone"),
+                    location: formData.get("location"),
+                    username: formData.get("username"),
+                    password: formData.get("password"),
                 })
             });
             
@@ -54,40 +59,107 @@ function CompanyRegistration() {
   return (
     <div>
 
-        <form className="max-w-md mx-auto">
-        <div className="relative z-0 w-full mb-5 group">
-            <input type="email" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
-            <label for="floating_email" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email address</label>
+        <form action={formAction} className="max-w-md mx-auto">
+        
+        <h2>Registration</h2>
+
+        <div>
+            <label htmlFor='email'>Email:</label>
+            <input 
+                type="email"
+                id="email"
+                name="email"
+                required
+                disabled={isPending}
+            />
         </div>
-        <div className="relative z-0 w-full mb-5 group">
-            <input type="password" name="floating_password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
-            <label for="floating_password" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
+
+        <div>
+            <label htmlFor='phone'>Phone number:</label>
+            <input
+                type="tel"
+                id='phone'
+                name='phone'
+                required
+                disabled={isPending}
+            />
         </div>
-        <div className="relative z-0 w-full mb-5 group">
-            <input type="password" name="repeat_password" id="floating_repeat_password" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
-            <label for="floating_repeat_password" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Confirm password</label>
+
+        <div>
+            <label htmlFor='companyName'>Company Name:</label>
+            <input 
+                type='text'
+                id='companyName'
+                name='companyName'
+                required
+                disabled={isPending}
+            />
         </div>
-        <div className="grid md:grid-cols-2 md:gap-6">
-            <div className="relative z-0 w-full mb-5 group">
-                <input type="text" name="floating_first_name" id="floating_first_name" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
-                <label for="floating_first_name" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">First name</label>
-            </div>
-            <div className="relative z-0 w-full mb-5 group">
-                <input type="text" name="floating_last_name" id="floating_last_name" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
-                <label for="floating_last_name" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Last name</label>
-            </div>
+
+        <div>
+            <label htmlFor='location'>Company Location:</label>
+            <input
+                type='text'
+                id="location"
+                name='location'
+                required
+                disabled={isPending}
+            />
         </div>
-        <div className="grid md:grid-cols-2 md:gap-6">
-            <div className="relative z-0 w-full mb-5 group">
-                <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
-                <label for="floating_phone" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Phone number</label>
-            </div>
-            <div className="relative z-0 w-full mb-5 group">
-                <input type="text" name="floating_company" id="floating_company" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
-                <label for="floating_company" className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:inset-s-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Company (Ex. Google)</label>
-            </div>
+
+        <div>
+            <label htmlFor='domain'>Company Domain:</label>
+            <input
+                type='url'
+                id="domain"
+                name='domain'
+                disabled={isPending}
+            />
         </div>
-        <button type="submit" className="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Submit</button>
+
+        <div>
+            <label htmlFor='username'>Username:</label>
+            <input
+                type='text'
+                id='username'
+                name='username'
+                required
+                disabled={isPending}
+            />
+        </div>
+
+        <div>
+            <label htmlFor='password'>Password:</label>
+            <input
+                type='password'
+                id='password'
+                name='password'
+                required
+                disabled={isPending}
+            />
+        </div>
+
+        <div>
+            <label htmlFor='confirmPassword'>Password Again:</label>
+            <input
+                type='password'
+                id='confirmPassword'
+                name='confirmPassword'
+                required
+                disabled={isPending}
+            />
+        </div>
+
+        <button type="submit" disabled={isPending}>
+            {isPending ? 'Signing up...' : 'Sign In'}
+        </button>
+
+        {state.message && (
+            <p className={state.success ? 'text-green' : 'text-red'}>
+            {state.message}
+            </p>
+        )}
+
         </form>
 
             
