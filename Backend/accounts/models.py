@@ -13,7 +13,7 @@ class Company(models.Model):
         message="Please enter a valid domain name (e.g., 'company.com'). Do not include http:// or https://"
     )
     name = models.CharField(max_length=117, help_text="Please enter your company name.")
-    slug = models.SlugField(max_length=99, unique=True, help_text="Enter an username associated with your company.")
+    username = models.SlugField(max_length=99, unique=True, help_text="Enter an username associated with your company.")
     mail = models.EmailField(unique=True, help_text="Your company mail.") 
     phone_number = models.CharField(
         validators=[phone_validator], 
@@ -33,5 +33,3 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=role_choices.choices)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    
-

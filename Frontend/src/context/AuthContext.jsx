@@ -2,16 +2,34 @@ import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { AuthContext } from './auth'; 
 
+const getStoredAccessToken = () => {
+    const storedToken = localStorage.getItem('access_token');
+    if (!storedToken) return null;
+
+    try {
+        jwtDecode(storedToken);
+        return storedToken;
+    } catch {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        return null;
+    }
+};
+
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(() => {
-        return localStorage.getItem('access_token') || null;
+        return getStoredAccessToken();
     });
 
     const [role, setRole] = useState(() => {
         const storedToken = localStorage.getItem('access_token');
         if (storedToken) {
-            const decoded = jwtDecode(storedToken);
-            return decoded.role || null;
+            try {
+                return jwtDecode(storedToken).role || null;
+            } catch {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+            }
         }
         return null;
     });
@@ -19,8 +37,12 @@ export const AuthProvider = ({ children }) => {
     const [companyId, setCompanyId] = useState(() => {
         const storedToken = localStorage.getItem('access_token');
         if (storedToken) {
-            const decoded = jwtDecode(storedToken);
-            return decoded.company_id || null; 
+            try {
+                return jwtDecode(storedToken).company_id || null;
+            } catch {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+            }
         }
         return null;
     });
@@ -63,7 +85,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ token, role, companyId, loginUser, logoutUser }}>
+        <AuthContext.Provider value={{ token, role, companyId, isAuthenticated: Boolean(token), loginUser, logoutUser }}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,17 +1,17 @@
-import 'react'
 import { useActionState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/auth'
 import CompanyRegistration from './CompanyRegistration';
 
 
 function Login() {
     const {loginUser} = useAuth();
+    const navigate = useNavigate();
     async function saveUser(prevState, formData) {
         
         //To save into DB
         const userName = formData.get("userName");
         const password = formData.get("password");
-        await wait(1000);
         if (userName === ""){
             return {
                 error: "Username is required.",
@@ -28,14 +28,10 @@ function Login() {
                 error: result.error,
             }
         }
+        navigate('/dashboard');
+        return { success: true };
     }
-
-    function wait(duration){
-        return new Promise(res => {
-            setTimeout(res, duration);
-        })
-    }
-    const[formData, formAction, formLoading] = useActionState(saveUser, null);
+    const[formData, formAction, formLoading] = useActionState(saveUser, { success: false });
 
   return (
     <div>
@@ -57,7 +53,7 @@ function Login() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         </span>
-                        <input type="text" id="userName" name="userName" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Username"/>
+                        <input required type="text" id="userName" name="userName" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Username"/>
                     </div>
 
                     <div className="relative flex items-center mt-4">
@@ -66,7 +62,7 @@ function Login() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
                         </span>
-                        <input type="password" id="password" name="password" className="block w-full px-11 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password"/>
+                        <input required type="password" id="password" name="password" className="block w-full px-11 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password"/>
                     </div>
 
                     <div className='w-full flex flex-col items-center'>
@@ -79,9 +75,9 @@ function Login() {
                             Forgot your password?
                             </a>
                         </div>
-                        <button disabled={formLoading} type='button' onClick={CompanyRegistration}  className="w-full mt-2 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg md:w-1/2 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 disabled:opacity-50">
+                        <Link to="/registration" className="w-full mt-2 px-6 py-3 text-center text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg md:w-1/2 hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                             Company Registration
-                        </button>
+                        </Link>
                     </div>
                     
                 </form>

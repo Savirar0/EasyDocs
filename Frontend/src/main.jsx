@@ -10,10 +10,9 @@ import Dashboard from './pages/Dashboard'
 import CompanyRegistration from './pages/CompanyRegistration'
 
 const ProtectedRoutes = () => {
-  const {user, loading} = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  if (loading) return <div>Loading...</div>;
-  if (!user) return <Navigate to="/login" replace />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   return <Outlet />;
 }

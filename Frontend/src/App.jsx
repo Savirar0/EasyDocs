@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from './context/auth';
 
 function App() {
-  const { role, companyId, logout } = useAuth();
+  const { role, companyId, logoutUser } = useAuth();
 
   return (
     <div style={{ fontFamily: 'sans-serif', minHeight: '100vh' }}>
@@ -12,7 +12,7 @@ function App() {
         <h2>EasyDocs Portal</h2>
         <div>
           <span>Role: <strong>{role}</strong> | Company: <strong>{companyId}</strong></span>
-          <button onClick={logout} style={{ marginLeft: '15px' }}>Logout</button>
+          <button onClick={logoutUser} style={{ marginLeft: '15px' }}>Logout</button>
         </div>
       </header>
 

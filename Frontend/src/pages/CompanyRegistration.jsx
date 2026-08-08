@@ -1,9 +1,10 @@
-import React from 'react'
-import { useActionState, useState } from 'react'
+import { useActionState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function CompanyRegistration() {
+    const navigate = useNavigate();
 
-    const [state, formAction, isPending] = useActionState(loginAction, {
+    const [state, formAction, isPending] = useActionState(saveCompany, {
         success: false,
         message: 'Registration not submitted.',
     });
@@ -38,6 +39,7 @@ function CompanyRegistration() {
             const data = await response.json();
             
             if(response.ok){
+                navigate('/login');
                 return {
                     success: true,
                     message: "Company and company management admin account created successfully."
@@ -110,10 +112,11 @@ function CompanyRegistration() {
         <div>
             <label htmlFor='domain'>Company Domain:</label>
             <input
-                type='url'
+                type='text'
                 id="domain"
                 name='domain'
                 disabled={isPending}
+                placeholder="company.com"
             />
         </div>
 
@@ -154,9 +157,9 @@ function CompanyRegistration() {
             {isPending ? 'Signing up...' : 'Sign In'}
         </button>
 
-        {state.message && (
+        {(state.message || state.error) && (
             <p className={state.success ? 'text-green' : 'text-red'}>
-            {state.message}
+            {state.message || state.error}
             </p>
         )}
 

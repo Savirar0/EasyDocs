@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer
-from django.db import transaction
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError, transaction
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -28,9 +29,18 @@ def register_company(request):
     username = data.get('username')
     password = data.get('password')
 
-    if not company_name or not username or not password:
+    required_fields = {
+        "Company name": company_name,
+        "Email": mail,
+        "Phone number": phone_number,
+        "Location": location,
+        "Username": username,
+        "Password": password,
+    }
+    missing_fields = [name for name, value in required_fields.items() if not value]
+    if missing_fields:
         return Response(
-            {"error": "Company Name, Username, and Password are required fields."}, 
+            {"error": f"{', '.join(missing_fields)} are required fields."},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -40,10 +50,17 @@ def register_company(request):
     if domain and Company.objects.filter(domain=domain).exists():
         return Response({"error": "A company with this domain already exists."}, status=status.HTTP_400_BAD_REQUEST)
 
+    if Company.objects.filter(mail=mail).exists():
+        return Response({"error": "A company with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
+
+    if Company.objects.filter(phone_number=phone_number).exists():
+        return Response({"error": "A company with this phone number already exists."}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
         with transaction.atomic():
             new_company = Company.objects.create(
                 name=company_name,
+                username=username,
                 domain=domain,
                 mail=mail,
                 phone_number=phone_number,
@@ -65,8 +82,12 @@ def register_company(request):
             status=status.HTTP_201_CREATED
         )
 
-    except Exception as e:
+    except ValidationError as exc:
+        return Response({"error": exc.message_dict}, status=status.HTTP_400_BAD_REQUEST)
+    except IntegrityError:
+        return Response({"error": "An account with those company details already exists."}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception:
         return Response(
-            {"error": f"An error occurred during registration: {str(e)}"}, 
+            {"error": "An error occurred while registering the company."},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
