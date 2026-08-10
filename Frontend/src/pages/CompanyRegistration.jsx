@@ -59,112 +59,121 @@ function CompanyRegistration() {
     }
     
   return (
-    <div>
+    <div className= 'flex items-stretch min-h-screen p-4 bg-black'>
 
-        <form action={formAction} className="max-w-md mx-auto">
-        
-        <h2>Registration</h2>
+        {/* Left side, Easydocs Info */}
+        <div className='flex-1 flex flex-col items-center justify-center text-center p-8 bg-blue-600 text-white rounded-l-2xl'>
 
-        <div>
-            <label htmlFor='email'>Email:</label>
-            <input 
-                type="email"
-                id="email"
-                name="email"
-                required
-                disabled={isPending}
-            />
+            <h1>Easy Docs!</h1>
+
         </div>
 
-        <div>
-            <label htmlFor='phone'>Phone number:</label>
-            <input
-                type="tel"
-                id='phone'
-                name='phone'
-                required
-                disabled={isPending}
-            />
+        {/* Right side, registration form */}
+        <div className='flex flex-1 items-center justify-center bg-red-600 rounded-r-2xl'>
+            <form action={formAction} className="max-w-md mx-auto">
+                <div className='grid grid-cols-1 gap-8'>
+                    <h2>Registration</h2>
+
+                    <div>
+                        <label htmlFor='email'>Email:</label>
+                        <input 
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            disabled={isPending}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor='phone'>Phone number:</label>
+                        <input
+                            type="tel"
+                            id='phone'
+                            name='phone'
+                            required
+                            disabled={isPending}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor='companyName'>Company Name:</label>
+                        <input 
+                            type='text'
+                            id='companyName'
+                            name='companyName'
+                            required
+                            disabled={isPending}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor='location'>Company Location:</label>
+                        <input
+                            type='text'
+                            id="location"
+                            name='location'
+                            required
+                            disabled={isPending}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor='domain'>Company Domain:</label>
+                        <input
+                            type='text'
+                            id="domain"
+                            name='domain'
+                            disabled={isPending}
+                            placeholder="company.com"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor='username'>Username:</label>
+                        <input
+                            type='text'
+                            id='username'
+                            name='username'
+                            required
+                            disabled={isPending}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor='password'>Password:</label>
+                        <input
+                            type='password'
+                            id='password'
+                            name='password'
+                            required
+                            disabled={isPending}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor='confirmPassword'>Password Again:</label>
+                        <input
+                            type='password'
+                            id='confirmPassword'
+                            name='confirmPassword'
+                            required
+                            disabled={isPending}
+                        />
+                    </div>
+
+                    <button type="submit" disabled={isPending}>
+                        {isPending ? 'Signing up...' : 'Sign In'}
+                    </button>
+                </div>
+            {(state.message || state.error) && (
+                <p className={state.success ? 'text-green' : 'text-red'}>
+                {state.message || state.error}
+                </p>
+            )}
+
+            </form>
         </div>
-
-        <div>
-            <label htmlFor='companyName'>Company Name:</label>
-            <input 
-                type='text'
-                id='companyName'
-                name='companyName'
-                required
-                disabled={isPending}
-            />
-        </div>
-
-        <div>
-            <label htmlFor='location'>Company Location:</label>
-            <input
-                type='text'
-                id="location"
-                name='location'
-                required
-                disabled={isPending}
-            />
-        </div>
-
-        <div>
-            <label htmlFor='domain'>Company Domain:</label>
-            <input
-                type='text'
-                id="domain"
-                name='domain'
-                disabled={isPending}
-                placeholder="company.com"
-            />
-        </div>
-
-        <div>
-            <label htmlFor='username'>Username:</label>
-            <input
-                type='text'
-                id='username'
-                name='username'
-                required
-                disabled={isPending}
-            />
-        </div>
-
-        <div>
-            <label htmlFor='password'>Password:</label>
-            <input
-                type='password'
-                id='password'
-                name='password'
-                required
-                disabled={isPending}
-            />
-        </div>
-
-        <div>
-            <label htmlFor='confirmPassword'>Password Again:</label>
-            <input
-                type='password'
-                id='confirmPassword'
-                name='confirmPassword'
-                required
-                disabled={isPending}
-            />
-        </div>
-
-        <button type="submit" disabled={isPending}>
-            {isPending ? 'Signing up...' : 'Sign In'}
-        </button>
-
-        {(state.message || state.error) && (
-            <p className={state.success ? 'text-green' : 'text-red'}>
-            {state.message || state.error}
-            </p>
-        )}
-
-        </form>
-
             
     </div>
   )
