@@ -71,12 +71,13 @@ function CompanyRegistration() {
         {/* Right side, registration form */}
         <div className='flex flex-1 items-center justify-center bg-red-600 rounded-r-2xl'>
             <form action={formAction} className="max-w-md mx-auto">
-                <div className='grid grid-cols-1 gap-8'>
+                <div className='grid grid-cols-1 gap-8 p-5 border-5 border-solid border-white rounded-4xl'>
                     <h2>Registration</h2>
 
                     <div>
                         <label htmlFor='email'>Email:</label>
                         <input 
+                            className='ml-30 sm:ml:15 border-2 border-solid border-blue-500'
                             type="email"
                             id="email"
                             name="email"
@@ -88,6 +89,7 @@ function CompanyRegistration() {
                     <div>
                         <label htmlFor='phone'>Phone number:</label>
                         <input
+                            className='ml-12 sm:ml:6 border-2 border-solid border-blue-500'
                             type="tel"
                             id='phone'
                             name='phone'
@@ -99,6 +101,7 @@ function CompanyRegistration() {
                     <div>
                         <label htmlFor='companyName'>Company Name:</label>
                         <input 
+                            className='ml-10 sm:ml:5 border-2 border-solid border-blue-500'
                             type='text'
                             id='companyName'
                             name='companyName'
@@ -110,6 +113,7 @@ function CompanyRegistration() {
                     <div>
                         <label htmlFor='location'>Company Location:</label>
                         <input
+                            className='ml-5 sm:ml:2.5 border-2 border-solid border-blue-500'
                             type='text'
                             id="location"
                             name='location'
@@ -121,6 +125,7 @@ function CompanyRegistration() {
                     <div>
                         <label htmlFor='domain'>Company Domain:</label>
                         <input
+                            className='ml-6 sm:ml:3 border-2 border-solid border-blue-500'
                             type='text'
                             id="domain"
                             name='domain'
@@ -132,6 +137,7 @@ function CompanyRegistration() {
                     <div>
                         <label htmlFor='username'>Username:</label>
                         <input
+                            className='ml-20 sm:ml:10 border-2 border-solid border-blue-500'
                             type='text'
                             id='username'
                             name='username'
@@ -143,6 +149,7 @@ function CompanyRegistration() {
                     <div>
                         <label htmlFor='password'>Password:</label>
                         <input
+                            className='ml-21 sm:ml:10.5 border-2 border-solid border-blue-500'
                             type='password'
                             id='password'
                             name='password'
@@ -154,6 +161,7 @@ function CompanyRegistration() {
                     <div>
                         <label htmlFor='confirmPassword'>Password Again:</label>
                         <input
+                            className='ml-9 sm:ml:4.5 border-2 border-solid border-blue-500'
                             type='password'
                             id='confirmPassword'
                             name='confirmPassword'
@@ -162,8 +170,11 @@ function CompanyRegistration() {
                         />
                     </div>
 
-                    <button type="submit" disabled={isPending}>
-                        {isPending ? 'Signing up...' : 'Sign In'}
+                    <button type="submit" disabled={isPending} className='border-2 border-solid border-black bg-blue-600 rounded-xl hover:bg-white'>
+                        {isPending ? 'Signing up...' : 'Sign Up'}
+                    </button>
+                    <button type="button" onClick={()=>navigate('/login')} className='border-2 border-solid border-black bg-white rounded-xl hover:bg-black hover:text-white '>
+                        Sign In
                     </button>
                 </div>
             {(state.message || state.error) && (
