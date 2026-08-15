@@ -47,6 +47,19 @@ export const AuthProvider = ({ children }) => {
         return null;
     });
 
+    const [companyName, setCompanyName] = useState(()=>{
+        const storedToken = localStorage.getItem('access_token');
+        if(storedToken){
+            try{
+                return jwtDecode(storedToken).company_name || null;
+            }catch{
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+            }
+        }
+        return null;
+    });
+
     const loginUser = async (username, password) => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api/token/", {
@@ -66,6 +79,7 @@ export const AuthProvider = ({ children }) => {
                 setToken(accessToken);
                 setRole(decoded.role);
                 setCompanyId(decoded.company_id);
+                setCompanyName(decoded.company_name);
 
                 return { success: true };
             } else {
@@ -80,12 +94,13 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         setCompanyId(null);
+        setCompanyName(null);
         setRole(null);
         setToken(null);
     };
 
     return (
-        <AuthContext.Provider value={{ token, role, companyId, isAuthenticated: Boolean(token), loginUser, logoutUser }}>
+        <AuthContext.Provider value={{ token, role, companyId, companyName, isAuthenticated: Boolean(token), loginUser, logoutUser }}>
             {children}
         </AuthContext.Provider>
     );
