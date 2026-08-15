@@ -29,7 +29,8 @@ class UserProfile(models.Model):
     class role_choices(models.TextChoices):
         mng = "MANAGEMENT", "Management"
         emp = "EMPLOYEE", "Employee"
-
+    name = models.CharField(max_length=30, default='xenzi')
+    empId = models.CharField(max_length=10, unique=True, default='cst899')    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=role_choices.choices)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
