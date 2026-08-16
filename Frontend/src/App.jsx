@@ -1,5 +1,5 @@
 import React from 'react';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useAuth } from './context/auth';
 
@@ -27,8 +27,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 function App() {
-  const { role, companyId, companyName, logoutUser } = useAuth();
-
+  const { role, companyId, companyName, logoutUser, token } = useAuth();
+  const [userRole, setUserRole] = useState();
   const [state, formAction, isPending] = useActionState(saveEmployee, {
     success: false,
     message: 'Registration not submitted.',
@@ -48,14 +48,15 @@ function App() {
     try{
       const response = await fetch("http://127.0.0.1:8000/api/register-employee/", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {"Content-Type": "application/json", "Authorization":`Bearer ${token}`},
+        
         body: JSON.stringify({
           name: formData.get("name"),
           mail: formData.get("email"),
           empId: formData.get("empId"),
           username: formData.get("username"),
           password: formData.get("password"),
-          role: formData.get("role"),
+          role: userRole,
           company: companyName,
           companyId: companyId,
         })
@@ -88,13 +89,13 @@ function App() {
         <h2>EasyDocs Portal</h2>
         <div className='flex flex-row gap-5'>
           <span>Role: <strong>{role}</strong> | Company Id: <strong>{companyId}</strong> | Company Name: <strong>{companyName}</strong></span>
-          <Dialog>
+          {role=="MANAGEMENT" ? (<Dialog>
             <DialogTrigger asChild>
               <Button variant="outline">Add Employees</Button>
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-md">
-              <form action={formAction} onSubmit={(e) => { e.preventDefault(); /* submit logic */ }}>
+              <form action={formAction}>
                 <DialogHeader>
                   <DialogTitle>Add Employees</DialogTitle>
                   <DialogDescription>
@@ -122,8 +123,8 @@ function App() {
                         Select
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem value="MANAGEMENT">Management</DropdownMenuItem>
-                        <DropdownMenuItem value="EMPLOYEE">Employee</DropdownMenuItem>
+                        <DropdownMenuItem onClick={()=>setUserRole("MANAGEMENT")}>Management</DropdownMenuItem>
+                        <DropdownMenuItem onClick={()=>setUserRole("EMPLOYEE")}>Employee</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
@@ -149,7 +150,7 @@ function App() {
                 </DialogFooter>
               </form>
             </DialogContent>
-          </Dialog>
+          </Dialog>) : ( <></> )}
           <button onClick={logoutUser} style={{ marginLeft: '15px' }}>Logout</button>
         </div>
       </header>

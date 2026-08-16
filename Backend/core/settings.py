@@ -137,7 +137,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # Your 'rest_framework_simplejwt.authentication.JWTAuthentication' string goes right here!
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         # This tells Django what the fallback security rule is if a view doesn't explicitly declare one

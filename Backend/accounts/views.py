@@ -127,8 +127,11 @@ class EmployeeRegistation(APIView):
         if User.objects.filter(username=username).exists():
             return Response({"error": "Username is already taken."}, status=status.HTTP_400_BAD_REQUEST)
     
-        if Company.objects.filter(mail=mail).exists():
+        if UserProfile.objects.filter(mail=mail).exists():
             return Response({"error": "An email with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if request.user.userprofile.role != "MANAGEMENT":
+            return Response({"error":"Should be management of the company to add company users."}, status=status.HTTP_400_BAD_REQUEST)
     
         try:
             with transaction.atomic():
@@ -140,10 +143,11 @@ class EmployeeRegistation(APIView):
     
                 new_company_employee = UserProfile.objects.create(
                     name=name,
-                    username=username,
+                    user=new_user,
+                    empId=empId,
                     mail=mail,
                     role=role,
-                    company=Company.objects.filter(name=company)
+                    company=request.user.userprofile.company
                 )
     
             return Response(
