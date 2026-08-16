@@ -77,7 +77,7 @@ function CompanyRegistration() {
                     <div>
                         <label htmlFor='email'>Email:</label>
                         <input 
-                            className='ml-30 sm:ml:15 border-2 border-solid border-blue-500'
+                            className='ml-28 sm:ml:14 border-2 border-solid border-blue-500'
                             type="email"
                             id="email"
                             name="email"

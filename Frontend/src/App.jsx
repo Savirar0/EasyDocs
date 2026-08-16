@@ -1,4 +1,5 @@
 import React from 'react';
+import { useActionState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useAuth } from './context/auth';
 
@@ -27,6 +28,59 @@ import {
 
 function App() {
   const { role, companyId, companyName, logoutUser } = useAuth();
+
+  const [state, formAction, isPending] = useActionState(saveEmployee, {
+    success: false,
+    message: 'Registration not submitted.',
+  });
+  async function saveEmployee(prevState, formData){
+    const password = formData.get("password");
+    const conform_password = formData.get("password2");
+
+    if(password != conform_password){
+
+      return{
+        success: false,
+        error: "Password don't match"
+      };
+    }
+
+    try{
+      const response = await fetch("http://127.0.0.1:8000/api/register-employee/", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          name: formData.get("name"),
+          mail: formData.get("email"),
+          empId: formData.get("empId"),
+          username: formData.get("username"),
+          password: formData.get("password"),
+          role: formData.get("role"),
+          company: companyName,
+          companyId: companyId,
+        })
+      });
+            
+      const data = await response.json();
+            
+      if(response.ok){
+        return {
+          success: true,
+          message: "Company employee/management account created successfully."
+        };
+      }else{
+        return{
+          success: false,
+          error: data.error || "Registration failure."
+        };
+      }
+        
+      } catch {
+        return {
+          success: false, error: "Network error, Server might be offline."
+        };
+      } 
+  }
   
   return (
     <div style={{ fontFamily: 'sans-serif', minHeight: '100vh' }}>
@@ -40,7 +94,7 @@ function App() {
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-md">
-              <form onSubmit={(e) => { e.preventDefault(); /* submit logic */ }}>
+              <form action={formAction} onSubmit={(e) => { e.preventDefault(); /* submit logic */ }}>
                 <DialogHeader>
                   <DialogTitle>Add Employees</DialogTitle>
                   <DialogDescription>
@@ -49,6 +103,10 @@ function App() {
                 </DialogHeader>
 
                 <div className="grid gap-4 py-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" name="email" placeholder="test@example.com" />
+                  </div>
                   <div className="grid gap-2">
                     <Label htmlFor="name">Name</Label>
                     <Input id="name" name="name" placeholder="Savirar" />
@@ -64,8 +122,8 @@ function App() {
                         Select
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem>Mangement</DropdownMenuItem>
-                        <DropdownMenuItem>Employee</DropdownMenuItem>
+                        <DropdownMenuItem value="MANAGEMENT">Management</DropdownMenuItem>
+                        <DropdownMenuItem value="EMPLOYEE">Employee</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
