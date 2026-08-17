@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Company, UserProfile
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -165,3 +166,22 @@ class EmployeeRegistation(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
     
+
+class CompanyEmployeesCount(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+
+        if request.user.userprofile.role != "MANAGEMENT":
+            return Response({"error":"Should be management to request this data"}, status=status.HTTP_400_BAD_REQUEST)
+
+        company = request.user.userprofile.company
+        total_company_employees = UserProfile.filter(company=company)
+        management_company_count = total_company_employees.filter(role=UserProfile.role_choices.mng).count()
+        employee_company_count = total_company_employees.filter(role=UserProfile.role_choices.emp).count()
+
+        return Response({
+            "Company": company,
+            "Total_Company_Employees": total_company_employees,
+            "Management": management_company_count,
+            "Employees": employee_company_count
+        })
