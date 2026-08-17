@@ -175,13 +175,13 @@ class CompanyEmployeesCount(APIView):
             return Response({"error":"Should be management to request this data"}, status=status.HTTP_400_BAD_REQUEST)
 
         company = request.user.userprofile.company
-        total_company_employees = UserProfile.filter(company=company)
+        total_company_employees = UserProfile.objects.filter(company=company)
         management_company_count = total_company_employees.filter(role=UserProfile.role_choices.mng).count()
         employee_company_count = total_company_employees.filter(role=UserProfile.role_choices.emp).count()
 
         return Response({
-            "Company": company,
-            "Total_Company_Employees": total_company_employees,
+            "Company": company.name,
+            "Total_Company_Employees": total_company_employees.count(),
             "Management": management_company_count,
             "Employees": employee_company_count
         })
