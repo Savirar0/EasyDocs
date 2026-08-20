@@ -31,7 +31,7 @@ class UserProfile(models.Model):
         emp = "EMPLOYEE", "Employee"
     name = models.CharField(max_length=30)
     mail = models.EmailField(max_length=50, unique=True)
-    empId = models.CharField(max_length=10, unique=True)    
+    empId = models.CharField(max_length=10, unique=True, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=role_choices.choices)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)

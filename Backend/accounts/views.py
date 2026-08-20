@@ -49,11 +49,11 @@ def register_company(request):
     if User.objects.filter(username=username).exists():
         return Response({"error": "Username is already taken."}, status=status.HTTP_400_BAD_REQUEST)
     
+    if UserProfile.objects.filter(mail=mail).exists() or Company.objects.filter(mail=mail).exists():
+        return Response({"error": "An account or company with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
+
     if domain and Company.objects.filter(domain=domain).exists():
         return Response({"error": "A company with this domain already exists."}, status=status.HTTP_400_BAD_REQUEST)
-
-    if Company.objects.filter(mail=mail).exists():
-        return Response({"error": "A company with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
 
     if Company.objects.filter(phone_number=phone_number).exists():
         return Response({"error": "A company with this phone number already exists."}, status=status.HTTP_400_BAD_REQUEST)
@@ -76,6 +76,8 @@ def register_company(request):
             UserProfile.objects.create(
                 user=new_user,
                 company=new_company,
+                mail=mail, 
+                empId=None,
                 role='MANAGEMENT' 
             )
 
@@ -86,11 +88,11 @@ def register_company(request):
 
     except ValidationError as exc:
         return Response({"error": exc.message_dict}, status=status.HTTP_400_BAD_REQUEST)
-    except IntegrityError:
-        return Response({"error": "An account with those company details already exists."}, status=status.HTTP_400_BAD_REQUEST)
-    except Exception:
+    except IntegrityError as e:
+        return Response({"error": f"Database integrity error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
         return Response(
-            {"error": "An error occurred while registering the company."},
+            {"error": f"An unexpected error occurred: {str(e)}"},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
