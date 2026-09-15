@@ -40,22 +40,7 @@ function Dashboard() {
 
     useEffect(() => {
         getCount();
-    }, [role, token]   );
-
-    // const chartData = [
-    //     {
-    //         name: "Total Employees",
-    //         amount: totalEmp 
-    //     },
-    //     {
-    //         name: "Management",
-    //         amount: managementCount 
-    //     },
-    //     {
-    //         name: "Employees",
-    //         amount: employeeCount 
-    //     },
-    // ]
+    }, [role, token]);
 
     const chartData = [
         { name: "Management", amount: managementCount },
@@ -64,15 +49,14 @@ function Dashboard() {
 
     return (
         <>  
-            {managementCount}
             <Card className="max-w-md mx-auto">
                 <Title className="text-center">Employee Breakdown</Title>
-                {/* Added h-52 for explicit container height */}
                 <DonutChart
                     className="h-52 mt-4"
                     data={chartData}
                     category="amount"
                     index="name"
+                    colors={["rose","indigo"]}
                     showLabel={true}
                     variant="donut"
                 />

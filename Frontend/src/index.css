@@ -4,6 +4,7 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+@source "../node_modules/@tremor/react";
 
 @theme inline {
     --font-heading: var(--font-sans);
@@ -118,6 +119,25 @@
 }
 
 @layer base {
+  :root {
+    --tremor-brand-faint: #eff6ff;
+    --tremor-brand-muted: #bfdbfe;
+    --tremor-brand-subtle: #60a5fa;
+    --tremor-brand-default: #3b82f6;
+    --tremor-brand-emphasis: #1d4ed8;
+    --tremor-brand-inverted: #ffffff;
+  }
+  .fill-rose-500 { fill: #f43f5e !important; }
+  .fill-indigo-500 { fill: #6366f1 !important; }
+  .fill-blue-500 { fill: #3b82f6 !important; }
+  .fill-cyan-500 { fill: #06b6d4 !important; }
+  .fill-emerald-500 { fill: #10b981 !important; }
+
+  .stroke-rose-500 { stroke: #f43f5e !important; }
+  .stroke-indigo-500 { stroke: #6366f1 !important; }
+  .stroke-blue-500 { stroke: #3b82f6 !important; }
+  .stroke-cyan-500 { stroke: #06b6d4 !important; }
+  .stroke-emerald-500 { stroke: #10b981 !important; }
   * {
     @apply border-border outline-ring/50;
     }
