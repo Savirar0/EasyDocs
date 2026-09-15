@@ -35,9 +35,9 @@ function App() {
   });
   async function saveEmployee(prevState, formData){
     const password = formData.get("password");
-    const conform_password = formData.get("password2");
+    const confirm_password = formData.get("password2");
 
-    if(password != conform_password){
+    if(password != confirm_password){
 
       return{
         success: false,
@@ -118,13 +118,13 @@ function App() {
                   </div>
                   <div className='grid gap-2'>
                     <Label htmlFor='role'>Role</Label>
-                    <DropdownMenu htmlFor='role'>
-                      <DropdownMenuTrigger render={<Button variant="outline" />}>
-                        Select
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline">{userRole || "Select Role"}</Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem onClick={()=>setUserRole("MANAGEMENT")}>Management</DropdownMenuItem>
-                        <DropdownMenuItem onClick={()=>setUserRole("EMPLOYEE")}>Employee</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setUserRole("MANAGEMENT")}>Management</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setUserRole("EMPLOYEE")}>Employee</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

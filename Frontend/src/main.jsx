@@ -17,9 +17,23 @@ const ProtectedRoutes = () => {
   return <Outlet />;
 }
 
+const PublicOnlyRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  return children;
+};
+
 const router = createBrowserRouter([
-  {index: true, element:<Login />},
-  {path: "/login", element: <Login/>},
+  {index: true, element:
+    <PublicOnlyRoute>
+      <Login />
+    </PublicOnlyRoute>
+  },
+  {path: "/login", element:
+    <PublicOnlyRoute>
+      <Login />
+    </PublicOnlyRoute>
+  },
   {path: "/registration", element: <CompanyRegistration />},
   {
     element: <ProtectedRoutes />,
