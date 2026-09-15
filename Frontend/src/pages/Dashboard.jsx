@@ -1,7 +1,7 @@
 import 'react'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/auth'
-import { DonutChart , Card, Title} from "@tremor/react";
+import { DonutChart , Card, Title, BarList} from "@tremor/react";
 
 function Dashboard() {
     
@@ -47,20 +47,39 @@ function Dashboard() {
         { name: "Employees", amount: employeeCount },
     ];
 
+
+    const data = [  
+        { name: "/home", value: 843 },
+        { name: "/imprint", value: 46 },  
+        { name: "/cancellation", value: 3 },  
+        { name: "/blocks", value: 108 },  
+        { name: "/documentation", value: 384 },
+    ]
+    
     return (
         <>  
-            <Card className="max-w-md mx-auto">
-                <Title className="text-center">Employee Breakdown</Title>
-                <DonutChart
-                    className="h-52 mt-4"
-                    data={chartData}
-                    category="amount"
-                    index="name"
-                    colors={["rose","indigo"]}
-                    showLabel={true}
-                    variant="donut"
-                />
-            </Card>
+            <div className='flex flex-row '>
+                <Card className="max-w-md mx-auto">
+                    <Title className="text-center">Employee Breakdown</Title>
+                    <DonutChart
+                        className="h-52 mt-4"
+                        data={chartData}
+                        category="amount"
+                        index="name"
+                        colors={["rose","indigo"]}
+                        showLabel={true}
+                        variant="donut"
+                    />
+                </Card>
+
+                <Card className="w-full md:w-1/2">
+                    <Title className="mb-4 text-center">Most Visited Pages</Title>
+                    <BarList
+                        data={data}
+                        className="mt-2"
+                    />
+                </Card>
+            </div>
         </>
     )
 }
