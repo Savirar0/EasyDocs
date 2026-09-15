@@ -1,7 +1,7 @@
 import 'react'
 import { useState } from 'react'
 import { useAuth } from '@/context/auth'
-import { DonutChart } from "@/components/DonutChart"
+import { DonutChart } from "@tremor/react";
 
 function Dashboard() {
     
