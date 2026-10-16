@@ -58,28 +58,34 @@ function Dashboard() {
     
     return (
         <>  
-            <div className='flex flex-row '>
-                <Card className="max-w-md mx-auto">
-                    <Title className="text-center">Employee Breakdown</Title>
-                    <DonutChart
-                        className="h-52 mt-4"
-                        data={chartData}
-                        category="amount"
-                        index="name"
-                        colors={["rose","indigo"]}
-                        showLabel={true}
-                        variant="donut"
-                    />
-                </Card>
+            {role=='MANAGEMENT' ? 
+                (<div className='flex flex-row '>
+                    <Card className="max-w-md mx-auto">
+                        <Title className="text-center">Employee Breakdown</Title>
+                        <DonutChart
+                            className="h-52 mt-4"
+                            data={chartData}
+                            category="amount"
+                            index="name"
+                            colors={["rose","indigo"]}
+                            showLabel={true}
+                            variant="donut"
+                        />
+                    </Card>
 
-                <Card className="w-full md:w-1/2">
-                    <Title className="mb-4 text-center">Most Visited Pages</Title>
-                    <BarList
-                        data={data}
-                        className="mt-2"
-                    />
-                </Card>
-            </div>
+                    <Card className="w-full md:w-1/2">
+                        <Title className="mb-4 text-center">Most Visited Pages</Title>
+                        <BarList
+                            data={data}
+                            className="mt-2"
+                        />
+                    </Card>
+                </div>)
+                : 
+                <div>
+
+                </div>
+            }
         </>
     )
 }
