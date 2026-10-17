@@ -74,7 +74,7 @@ function Dashboard() {
                     </Card>
 
                     <Card className="w-full md:w-1/2">
-                        <Title className="mb-4 text-center">Most Visited Pages</Title>
+                        <Title className="mb-4 text-center">Boards Breakdown</Title>
                         <BarList
                             data={data}
                             className="mt-2"
