@@ -21,7 +21,8 @@ class Board(models.Model):
 
 
 class Galaxy(models.Model):
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name='galaxies')
     name = models.CharField(max_length=225, blank=True)
     x_position = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
     y_position = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
@@ -31,7 +32,8 @@ class Galaxy(models.Model):
 
 class Asset(models.Model):
     #Asset can only sit in a galaxy
-    galaxy = models.ForeignKey(Galaxy, on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    galaxy = models.ForeignKey(Galaxy, on_delete=models.CASCADE, related_name='assets')
     title = models.CharField(max_length=500, blank=False)
     file = models.FileField(upload_to='assets/')
     x_position = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
