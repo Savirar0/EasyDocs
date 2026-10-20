@@ -11,6 +11,7 @@ from rest_framework import status
 from .models import Company, UserProfile
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from workspace.models import Board, Galaxy
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -78,7 +79,20 @@ def register_company(request):
                 company=new_company,
                 mail=mail, 
                 empId=None,
-                role='MANAGEMENT' 
+                role=UserProfile.role_choices.mng
+            )
+            company_board = Board.objects.create(
+                company=new_company,
+                board_type="PRIMARY",
+                name="Primary Board"
+            )
+            Galaxy.objects.create(
+                board=company_board,
+                name="Primary Galaxy",
+                x_position = 100,
+                y_position = 100,
+                width=500,
+                height=500
             )
 
         return Response(
@@ -98,7 +112,7 @@ def register_company(request):
 
 
 class EmployeeRegistation(APIView):
-
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         data=request.data
         name = data.get('name')
@@ -107,8 +121,8 @@ class EmployeeRegistation(APIView):
         username = data.get('username')
         password = data.get('password')
         role = data.get('role')
-        company = data.get('company')
-        companyId = data.get('companyId')
+        # company = data.get('company')
+        # companyId = data.get('companyId')
 
         required_fields = {
             "Name": name,
@@ -117,8 +131,8 @@ class EmployeeRegistation(APIView):
             "Username": username,
             "Password": password,
             "Role": role,
-            "Company": company,
-            "Company Id": companyId
+            # "Company": company,
+            # "Company Id": companyId
         }
         missing_fields = [name for name, value in required_fields.items() if not value]
         if missing_fields:
