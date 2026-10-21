@@ -13,7 +13,7 @@ class BoardView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
 
-        board_id = request.query_params.get('id')
+        board_id = request.query_params.get('board_id')
 
         company = request.user.userprofile.company
         board = Board.objects.filter(company=company).filter(id=board_id).first()
