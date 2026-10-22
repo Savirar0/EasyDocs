@@ -75,4 +75,20 @@ class AssetView(APIView):
         
         return Response({"Success":"False", "errors":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         
+class GalaxyView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        serializer = GalaxySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"Success":"True", "data":serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({"Success":"False", "errors":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, pk):
+        galaxy_instance = get_object_or_404(Galaxy, id=pk)
+        serializer = GalaxySerializer(galaxy_instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"Success":"True", "data":serializer.data}, status=status.HTTP_200_OK)
+        return Response({"Success":"False", "errors":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+               
