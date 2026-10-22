@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
@@ -56,15 +56,23 @@ class BoardView(APIView):
         })
 
 
-class Asset(APIView):
+class AssetView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = AssetSerializer(data=request.data)
-        if serializer.valid:
+        if serializer.is_valid():
             serializer.save(uploaded_by=request.user)
             return Response({"Success":"True", "data":serializer.data}, status=status.HTTP_201_CREATED)
 
         return Response({"Success":"False", "errors":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-    # def patch(self, request):
-
+    def patch(self, request, pk):
+        asset_instance = get_object_or_404(Asset, id=pk)
+        serializer = AssetSerializer(asset_instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(uploaded_by=request.user)
+            return Response({"Success":"True", "data":serializer.data}, status=status.HTTP_200_OK)
+        
+        return Response({"Success":"False", "errors":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        
 
