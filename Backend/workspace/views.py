@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from .models import Asset, Board, Galaxy
+from .serializers import AssetSerializer, GalaxySerializer, BoardSerializer
 
 
 # Create your views here.
@@ -53,5 +54,17 @@ class BoardView(APIView):
             "board_type": board.board_type,
             "galaxies": galaxies_response
         })
+
+
+class Asset(APIView):
+    def post(self, request):
+        serializer = AssetSerializer(data=request.data)
+        if serializer.valid:
+            serializer.save(uploaded_by=request.user)
+            return Response({"Success":"True", "data":serializer.data}, status=status.HTTP_201_CREATED)
+
+        return Response({"Success":"False", "errors":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    # def patch(self, request):
 
 
