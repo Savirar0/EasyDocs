@@ -25,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import PillNav from './components/ui/Navbar';
 
 function App() {
   const { role, companyId, companyName, logoutUser, token } = useAuth();
@@ -84,7 +85,7 @@ function App() {
   }
   
   return (
-    <div style={{ fontFamily: 'sans-serif', minHeight: '100vh' }}>
+    <div style={{ fontFamily: 'sans-serif', minHeight: '100vh' }} className='flex flex-col w-full  justify-center items-center'>
       <header style={{ padding: '20px', backgroundColor: '#f5f5f5', borderBottom: '1px solid #ccc', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h2>EasyDocs Portal</h2>
         <div className='flex flex-row gap-5'>
@@ -155,8 +156,31 @@ function App() {
         </div>
       </header>
 
+      <PillNav
+        className=''
+            
+        // logo={logo}
+        logoAlt="Company"
+        items={[
+          { label: 'Dashboard', href: '/' },
+          { label: 'Boards', href: '/boards' },
+          { label: 'Logout', onClick: logoutUser },
+        ]}
+        activeHref="/"
+        itemStyle="plane"
+        hoverEffect="fill"
+        indicator="dot"
+        layout="split"
+        surface="glass"
+        size="md"
+        bounce={0.3}
+        stretch={0.5}
+        collapse="auto"
+        intro
+      />
+
       {/* Dynamic Page Content */}
-      <main style={{ padding: '40px' }}>
+      <main className="w-full flex-1 p-10" style={{ padding: '40px' }}>
         <Outlet />
       </main>
     </div>

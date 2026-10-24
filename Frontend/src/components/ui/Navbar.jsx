@@ -709,6 +709,12 @@ const PillNav = ({
 
   const choose = (item, index, event) => {
     onItemClick?.(item, index, event);
+
+    if (item.onClick) {
+      if (!item.href) event.preventDefault();
+      item.onClick(event);
+    }
+
     if (!controlled) setSelected(index);
   };
 
