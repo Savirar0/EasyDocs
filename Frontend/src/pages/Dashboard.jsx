@@ -135,8 +135,8 @@ function Dashboard() {
             {role=='MANAGEMENT' ?
                 (
                 <>
-                <main className="flex h-full  w-full flex-col space-y-6 bg-neutral-200">
-                    <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-[#111111] text-white shadow-lg shadow-zinc-900/10">
+                <main className="flex min-h-screen w-screen flex-col p-2 space-y-6 bg-[#EFECE3]">
+                    <section className="overflow-hidden rounded-xl border border-zinc-800 bg-[#8FABD4] text-white shadow-lg shadow-zinc-900/10">
                         <div className="h-1 bg-orange-500" />
                         <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_1.15fr] lg:items-center">
                             <div>
@@ -146,7 +146,7 @@ function Dashboard() {
                                         EasyDocs Portal
                                     </p>
                                 </div>
-                                <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+                                <h1 className="mt-4 text-3xl font-semibold tracking-tight text-[#0D1C42] sm:text-4xl">
                                     Company overview
                                 </h1>
                                 <p className="mt-3 max-w-md text-sm leading-6 text-zinc-400">
@@ -155,22 +155,22 @@ function Dashboard() {
                             </div>
                             <div className="grid gap-3 sm:grid-cols-3">
                                 <div className="border-l-2 border-orange-500 px-4 py-1">
-                                    <p className="text-xs uppercase tracking-wider text-zinc-500">Role</p>
-                                    <p className="mt-2 truncate text-sm font-medium text-zinc-100">{role}</p>
+                                    <p className="text-xs uppercase tracking-wider text-[#000000]">Role</p>
+                                    <p className="mt-2 truncate text-sm font-extrabold text-[#FFF83F]">{role}</p>
                                 </div>
                                 <div className="border-l border-zinc-700 px-4 py-1">
-                                    <p className="text-xs uppercase tracking-wider text-zinc-500">Company ID</p>
-                                    <p className="mt-2 truncate text-sm font-medium text-zinc-100">{companyId}</p>
+                                    <p className="text-xs uppercase tracking-wider text-[#000000]">Company ID</p>
+                                    <p className="mt-2 truncate text-sm font-extrabold text-[#FFF83F]">{companyId}</p>
                                 </div>
                                 <div className="border-l border-zinc-700 px-4 py-1">
-                                    <p className="text-xs uppercase tracking-wider text-zinc-500">Company name</p>
-                                    <p className="mt-2 truncate text-sm font-medium text-zinc-100">{companyName}</p>
+                                    <p className="text-xs uppercase tracking-wider text-[#000000]">Company name</p>
+                                    <p className="mt-2 truncate text-sm font-extrabold text-[#FFF83F]">{companyName}</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-3 border-t border-zinc-800 bg-[#171717] px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-                            <div className="flex items-center gap-2 text-xs text-zinc-400">
-                                <span className="h-2 w-2 rounded-full bg-orange-500" />
+                        <div className="flex flex-col gap-3 border-t border-zinc-800 bg-[#4A70A9] px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+                            <div className="flex items-center gap-2 text-xs text-[#000000]">
+                                <span className="h-2 w-2 rounded-full text-bold bg-[#0D1C42]" />
                                 Management workspace
                             </div>
                             <div className="shrink-0">
@@ -243,7 +243,7 @@ function Dashboard() {
                         </div>
                     </section>
 
-                <section className="grid gap-4 sm:grid-cols-3">
+                <section className="grid gap-4 p-2 sm:grid-cols-3">
                     <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
                         <div className="flex items-start justify-between">
                             <p className="text-sm text-zinc-500">Total team</p>
@@ -270,7 +270,7 @@ function Dashboard() {
                     </div>
                 </section>
 
-                <section className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+                <section className="grid gap-6 p-2 lg:grid-cols-[0.85fr_1.15fr]">
                     <Card className="rounded-2xl border-zinc-200 p-6 shadow-sm">
                         <div className="flex items-start justify-between">
                             <div>
