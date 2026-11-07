@@ -2,6 +2,7 @@ import './index.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
+import Boards from './pages/Boards'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { useAuth } from './context/auth'
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom'
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
         element: <App />,
         children:[
           {path: "/dashboard", element: <Dashboard />},
+          {path: "/boards", element: <Boards />},
         ]
       }
     ]

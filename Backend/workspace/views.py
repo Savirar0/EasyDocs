@@ -12,30 +12,29 @@ from .serializers import AssetSerializer, GalaxySerializer, BoardSerializer
 
 class BoardView(APIView):
     permission_classes = [IsAuthenticated]
-    def get(self, request):
 
-        board_id = request.query_params.get('board_id')
-
+    def get(self, request, board_id=None):
         company = request.user.userprofile.company
-        board = Board.objects.filter(company=company).filter(id=board_id).first()
-        if not board:
-            return Response({
-                "error":"Board not found"
-            },
-            status=status.HTTP_404_NOT_FOUND
-            )
-        galaxy = Galaxy.objects.filter(board=board).prefetch_related('assets').all()
+
+        if board_id:
+            board = get_object_or_404(Board, id=board_id, company=company)
+        else:
+            board = get_object_or_404(Board, company=company, board_type="PRIMARY")
+
+        galaxies = Galaxy.objects.filter(board=board).prefetch_related('assets')
 
         galaxies_response = []
-        for g in galaxy:
-            assets= [
-                {"id": asset.id, 
-                 "name": asset.title, 
-                 "file": asset.file.url, 
-                 "x_position": asset.x_position, 
-                 "y_position": asset.y_position, 
-                 "uploaded_by": asset.uploaded_by.id,
-                } for asset in g.assets.all()
+        for g in galaxies:
+            assets = [
+                {
+                    "id": asset.id, 
+                    "name": asset.title, 
+                    "file": asset.file.url if asset.file else None, 
+                    "x_position": asset.x_position, 
+                    "y_position": asset.y_position, 
+                    "uploaded_by": asset.uploaded_by.id if asset.uploaded_by else None,
+                } 
+                for asset in g.assets.all()
             ]
             galaxies_response.append({
                 "id": g.id,
@@ -53,8 +52,7 @@ class BoardView(APIView):
             "board": board.name,
             "board_type": board.board_type,
             "galaxies": galaxies_response
-        })
-
+        }, status=status.HTTP_200_OK)
 
 class AssetView(APIView):
     permission_classes = [IsAuthenticated]

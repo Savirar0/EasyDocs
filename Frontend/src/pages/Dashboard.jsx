@@ -136,35 +136,38 @@ function Dashboard() {
                 (
                 <>
                 <main className="flex min-h-screen w-screen flex-col p-2 space-y-6 bg-[#EFECE3]">
-                    <section className="overflow-hidden rounded-xl border border-zinc-800 bg-[#8FABD4] text-white shadow-lg shadow-zinc-900/10">
+                    <section className="overflow-hidden rounded-xl border border-zinc-800 bg-[#9CB080] text-white shadow-lg shadow-zinc-900/10">
                         <div className="h-1 bg-orange-500" />
                         <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_1.15fr] lg:items-center">
                             <div>
-                                <div className="flex items-center gap-2 text-orange-400">
+                                <div className="flex items-center gap-2 bg-[#273338]">
                                     <Building2 className="h-4 w-4" />
-                                    <p className="text-xs font-semibold uppercase tracking-[0.18em]">
+                                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#FF8F00]">
                                         EasyDocs Portal
+                                    </p>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#FF8F00]">
+                                      ⫘⫘⫘⫘⫘⫘⏣⏣⏣𓇼 ⋆.˚ 𓆉 𓆝 𓆡⋆.˚ 𓇼⏣⏣⏣𐦂𖨆𐀪𖠋⏣⏣⏣⊹ ࣪ ﹏𓊝﹏𓂁﹏⊹ ࣪ ˖⏣⏣⏣⫘⫘⫘⫘⫘⫘
                                     </p>
                                 </div>
                                 <h1 className="mt-4 text-3xl font-semibold tracking-tight text-[#0D1C42] sm:text-4xl">
                                     Company overview
                                 </h1>
-                                <p className="mt-3 max-w-md text-sm leading-6 text-zinc-400">
+                                <p className="mt-3 max-w-md text-sm font-extrabold leading-6 text-[#273338]">
                                     Your workspace at a glance. Manage your team and monitor documentation activity.
                                 </p>
                             </div>
                             <div className="grid gap-3 sm:grid-cols-3">
                                 <div className="border-l-2 border-orange-500 px-4 py-1">
                                     <p className="text-xs uppercase tracking-wider text-[#000000]">Role</p>
-                                    <p className="mt-2 truncate text-sm font-extrabold text-[#FFF83F]">{role}</p>
+                                    <p className="mt-2 truncate text-sm font-extrabold text-[#273338]">{role}</p>
                                 </div>
                                 <div className="border-l border-zinc-700 px-4 py-1">
                                     <p className="text-xs uppercase tracking-wider text-[#000000]">Company ID</p>
-                                    <p className="mt-2 truncate text-sm font-extrabold text-[#FFF83F]">{companyId}</p>
+                                    <p className="mt-2 truncate text-sm font-extrabold text-[#273338]">{companyId}</p>
                                 </div>
                                 <div className="border-l border-zinc-700 px-4 py-1">
                                     <p className="text-xs uppercase tracking-wider text-[#000000]">Company name</p>
-                                    <p className="mt-2 truncate text-sm font-extrabold text-[#FFF83F]">{companyName}</p>
+                                    <p className="mt-2 truncate text-sm font-extrabold text-[#273338]">{companyName}</p>
                                 </div>
                             </div>
                         </div>

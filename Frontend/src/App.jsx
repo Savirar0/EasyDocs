@@ -38,27 +38,27 @@ function App() {
 
       <div className="fixed left-1/2 top-3 z-50 -translate-x-1/2">
         <PillNav
-        className='whitespace-nowrap'
-            
-        // logo={logo}
-        logoAlt="Company"
-        items={[
-          { label: 'Dashboard', href: '/' },
-          { label: 'Boards', href: '/boards' },
-          { label: 'Logout', onClick: logoutUser },
-        ]}
-        activeHref="/"
-        itemStyle="plane"
-        hoverEffect="fill"
-        indicator="dot"
-        layout="split"
-        surface="glass"
-        size="md"
-        bounce={0.3}
-        stretch={0.5}
-        collapse="auto"
-        intro
-      />
+          className='whitespace-nowrap'
+              
+          // logo={logo}
+          logoAlt="Company"
+          items={[
+            { label: 'Dashboard', href: '/' },
+            { label: 'Boards', href: '/boards' },
+            { label: 'Logout', onClick: logoutUser },
+          ]}
+          activeHref="/"
+          itemStyle="plane"
+          hoverEffect="fill"
+          indicator="dot"
+          layout="split"
+          surface="glass"
+          size="md"
+          bounce={0.3}
+          stretch={0.5}
+          collapse="auto"
+          intro
+        />
       </div>
 
       {/* Dynamic Page Content */}
