@@ -1,41 +1,31 @@
-import React from "react";
-import { useActionState, useState, useEffect, useCallback } from 'react'
-import { useAuth } from '@/context/auth'
-import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge } from '@xyflow/react';
-import '../index.css';
+import React, { useState, useEffect } from "react";
+import { useAuth } from "@/context/auth";
+import {
+  ReactFlow,
+  Background,
+  Controls,
+  useNodesState,
+} from "@xyflow/react";
+import "../index.css";
 
- 
-const initialNodes = [
-  { id: 'n1', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
-  { id: 'n2', position: { x: 0, y: 100 }, data: { label: 'Node 2' } },
-];
-const initialEdges = [{ id: 'n1-n2', source: 'n1', target: 'n2' }];
+function Boards() {
+  const { role, companyId, companyName, token } = useAuth();
 
-function Boards(){
-    const {role, companyId, companyName, token} = useAuth();
+  const [board, setBoard] = useState(null);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
 
-    const [board, setBoard] = useState();
-    
-    const [nodes, setNodes] = useState(initialNodes);
-    const [edges, setEdges] = useState(initialEdges);
-    
-    const onNodesChange = useCallback((changes) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)), []);
-    const onEdgesChange = useCallback((changes) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)), []);
-    const onConnect = useCallback((params) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)), []);
-    
-    return (
-        <div style={{ width: '100vw', height: '100vh' }}>
-        <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            fitView
-        />
-        </div>
-    );
-
+  return (
+    <div className="w-screen h-screen bg-slate-50">
+      <ReactFlow
+        nodes={nodes}
+        onNodesChange={onNodesChange}
+        fitView
+      >
+        <Background variant="dots" gap={20} size={3} color="#cbd5e1" />
+        <Controls />
+      </ReactFlow>
+    </div>
+  );
 }
 
-export default Boards
+export default Boards;
