@@ -1,6 +1,6 @@
 import React from 'react';
 import { useActionState, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from './context/auth';
 
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ import PillNav from './components/ui/Navbar';
 function App() {
   const { role, companyId, companyName, logoutUser, token } = useAuth();
   const [userRole, setUserRole] = useState();
-
+  const location = useLocation();
 
   return (
     <div style={{ fontFamily: 'sans-serif', minHeight: '100vh' }} className='relative flex min-h-screen w-full flex-col'>
@@ -43,11 +43,11 @@ function App() {
           // logo={logo}
           logoAlt="Company"
           items={[
-            { label: 'Dashboard', href: '/' },
+            { label: 'Dashboard', href: '/dashboard' },
             { label: 'Boards', href: '/boards' },
             { label: 'Logout', onClick: logoutUser },
           ]}
-          activeHref="/"
+          activeHref={location.pathname} 
           itemStyle="plane"
           hoverEffect="fill"
           indicator="dot"
