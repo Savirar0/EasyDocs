@@ -16,6 +16,55 @@ const getStoredAccessToken = () => {
     }
 };
 
+const authFetch = async (url, options = {}) => {
+  const currentAccess = localStorage.getItem("access_token"); // match your login key
+
+  let response = await fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${currentAccess}`,
+    },
+  });
+
+  if (response.status === 401) {
+    const refreshToken = localStorage.getItem("refresh_token"); // match your login key
+
+    if (!refreshToken) {
+      logoutUser();
+      return response;
+    }
+
+    const refreshRes = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh: refreshToken }),
+    });
+
+    if (refreshRes.ok) {
+      const data = await refreshRes.json();
+      localStorage.setItem("access_token", data.access);
+      if (data.refresh) {
+        localStorage.setItem("refresh_token", data.refresh);
+      }
+      setToken(data.access);
+
+      // Retry the original request with the new access token
+      response = await fetch(url, {
+        ...options,
+        headers: {
+          ...options.headers,
+          Authorization: `Bearer ${data.access}`,
+        },
+      });
+    } else {
+      logoutUser();
+    }
+  }
+
+  return response;
+};
+
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(() => {
         return getStoredAccessToken();
@@ -100,7 +149,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ token, role, companyId, companyName, isAuthenticated: Boolean(token), loginUser, logoutUser }}>
+        <AuthContext.Provider value={{ token, role, companyId, companyName, isAuthenticated: Boolean(token), loginUser, logoutUser, authFetch }}>
             {children}
         </AuthContext.Provider>
     );

@@ -16,6 +16,7 @@ function Boards() {
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   
+  
 
   const getPrimaryBoard = async ()=>{
     if (!token){
@@ -43,7 +44,10 @@ function Boards() {
             }
         }
     }
-
+  
+  useEffect(()=>{
+    getPrimaryBoard();
+  }, [token])
 
   return (
     <div className="w-screen h-screen bg-slate-50">
